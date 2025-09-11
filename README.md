@@ -2,6 +2,26 @@
 
 # 
 
+Here’s a runnable, prototype APR (automatic program repair) tool for Python projects—AST-based mutations + generate-and-validate against your test suite.
+
+What you get
+
+apr.py — the CLI runner (copies your project to a temp dir, applies one-edit patches, runs tests, and tracks best patch).
+
+mutators.py — a few simple AST mutators:
+
+arithmetic operator swaps (+↔-, *↔//↔/, etc.)
+
+comparison flips (>↔>=↔<↔<=, ==↔!=)
+
+if condition negation
+
+small integer tweaks (−3..3 → ±1)
+
+README.md — usage + tips.
+
+Quickstart
+
 --------------------------------------------------------------------------------------------------------------------------
 == We're Using GitHub Under Protest ==
 
