@@ -22,6 +22,29 @@ README.md — usage + tips.
 
 Quickstart
 
+python apr.py \
+  --project /path/to/your/project \
+  --target  /path/to/your/project/mypkg/module.py \
+  --tests   "pytest -q" \
+  --budget  200 \
+  --timeout 120
+
+    It clones your project to a temp workspace, runs the baseline tests, generates one-edit candidates for the target file, and runs your test command for each candidate.
+
+    If it finds a full fix (exit code 0), it stops early. Otherwise it reports the best improvement found.
+
+    Results are saved in ./_apr_results/: summary.json, best_patch.diff, and best_patch.py.
+
+Notes & extensions
+
+    Works with any test command (pytest, unittest, or a custom script).
+
+    Start with the file implicated by failing stack traces.
+
+    To add more repair operators, extend NodeMutator in mutators.py (e.g., None checks, return-default templates, list bounds guards, etc.).
+
+    This is intentionally minimal for prototyping and demos (single-file focus, heuristic test parsing). If you want, I can add coverage-guided fault localization, multi-edit search, or template-based repairs next. 
+
 --------------------------------------------------------------------------------------------------------------------------
 == We're Using GitHub Under Protest ==
 
