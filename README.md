@@ -6,6 +6,8 @@ Goal: Implement a prototype level automatic program repair tool.
 
 Here’s a runnable, prototype APR (automatic program repair) tool for Python projects—AST-based mutations + generate-and-validate against your test suite.
 
+(AST — abstract syntax tree)
+
 What you get
 
 apr.py — the CLI runner (copies your project to a temp dir, applies one-edit patches, runs tests, and tracks best patch).
