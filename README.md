@@ -2,6 +2,8 @@
 
 # 
 
+Goal: Implement a prototype level automatic program repair tool.
+
 Here’s a runnable, prototype APR (automatic program repair) tool for Python projects—AST-based mutations + generate-and-validate against your test suite.
 
 What you get
