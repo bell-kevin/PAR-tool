@@ -45,9 +45,9 @@ Notes & extensions
 
     Start with the file implicated by failing stack traces.
 
-    To add more repair operators, extend NodeMutator in mutators.py (e.g., None checks, return-default templates, list bounds guards, etc.).
+  To add more repair operators, extend NodeMutator in mutators.py (e.g., None checks, return-default templates, list bounds guards, etc.).
 
-    This is intentionally minimal for prototyping and demos (single-file focus, heuristic test parsing). If you want, I can add coverage-guided fault localization, multi-edit search, or template-based repairs next. 
+  This is intentionally minimal for prototyping and demos (single-file focus, heuristic test parsing). If you want, I can add coverage-guided fault localization, multi-edit search, or template-based repairs next. 
 
 --------------------------------------------------------------------------------------------------------------------------
 == We're Using GitHub Under Protest ==
