@@ -33,7 +33,7 @@ python apr.py \
   --budget  200 \
   --timeout 120
 
-    It clones your project to a temp workspace, runs the baseline tests, generates one-edit candidates for the target file, and runs your test command for each candidate.
+  It clones your project to a temp workspace, runs the baseline tests, generates one-edit candidates for the target file, and runs your test command for each candidate.
 
     If it finds a full fix (exit code 0), it stops early. Otherwise it reports the best improvement found.
 
