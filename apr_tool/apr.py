@@ -13,10 +13,13 @@ from pathlib import Path
 from typing import List, Tuple, Dict, Optional
 
 from mutators import (
+    AdjacentStatementSwapper,
     ArithmeticOpReplacer,
     CompareOpReplacer,
     IfNegationToggler,
     SmallIntTweaker,
+    StatementDeletionMutator,
+    StatementDuplicator,
     apply_single_mutation_candidates,
 )
 
@@ -99,6 +102,9 @@ def repair(project: Path, target_file: Path, test_cmd: str, budget: int, timeout
         orig_src = target_in_tmp.read_text(encoding="utf-8")
         tree = ast.parse(orig_src)
         mutators = [
+            StatementDuplicator(),
+            StatementDeletionMutator(),
+            AdjacentStatementSwapper(),
             ArithmeticOpReplacer(),
             CompareOpReplacer(),
             IfNegationToggler(),

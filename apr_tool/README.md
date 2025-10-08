@@ -1,6 +1,6 @@
-# Prototype Automatic Program Repair (APR) Tool (Python)
+# Prototype Program-based Automatic Program Repair (PAR) Tool (Python)
 
-A lightweight, *generate-and-validate* APR prototype. It mutates Python source using `ast`,
+A lightweight, *program-based* generate-and-validate APR prototype. It mutates Python source using `ast`,
 builds candidate patches, and runs your test command (e.g., `pytest`) to find a patch that
 reduces or eliminates failing tests.
 
@@ -11,11 +11,11 @@ reduces or eliminates failing tests.
 
 ## Features
 
-- **AST-based mutations**:
-  - Arithmetic operator replacement: `+ ↔ -`, `* ↔ // ↔ /`, `%` neighbors
-  - Comparison flip: `> ↔ >= ↔ < ↔ <=`, `== ↔ !=`
-  - Boolean negation toggle: `if cond:` ↔ `if not cond:`
-  - Small integer tweak: `n → n±1` for `-3..3`
+- **Edit operations (PAR-style)**:
+  - **Insert**: duplicate an existing statement to explore guard-style fixes.
+  - **Delete**: remove a statement while keeping bodies syntactically valid.
+  - **Swap**: exchange adjacent statements to reorder logic.
+  - **Mutate**: targeted expression-level rewrites (arithmetic, comparisons, boolean negation, integer tweaks).
 - **Search**: Iterative single-edit search with budget.
 - **Oracle**: Any shell test command (default: `pytest -q`).
 - **Safety**: Edits occur in a temp copy of your project dir.
