@@ -1,5 +1,9 @@
 <a name="readme-top"></a>
 
+# TO-DO LIST:
+
+DO THIS ENTIRE PROJECT IN JAVA - NOT PYTHON
+
 # Prototype Program-based Automatic Program Repair (PAR) Tool (Python)
 
 Goal: implement a prototype-level automatic program repair (APR) tool that mutates Python source code using the `ast` module and validates candidate fixes against your project test suite.
