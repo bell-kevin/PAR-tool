@@ -161,7 +161,11 @@ def repair(project: Path, target_file: Path, test_cmd: str, budget: int, timeout
 
 def main():
     p = argparse.ArgumentParser(description="Prototype APR (generate-and-validate)")
-    p.add_argument("--project", required=True, help="Path to project root")
+    p.add_argument(
+        "--project",
+        required=False,
+        help="Path to project root (defaults to the directory containing --target)",
+    )
     p.add_argument("--target", required=True, help="Path to target python file to mutate")
     p.add_argument("--tests", default="pytest -q", help="Test command (shell string)")
     p.add_argument("--budget", type=int, default=200, help="Max candidate patches to attempt")
@@ -169,14 +173,28 @@ def main():
     p.add_argument("--seed", type=int, default=0, help="Random seed")
     args = p.parse_args()
 
-    project = Path(args.project).resolve()
-    target = Path(args.target).resolve()
+    target = Path(args.target).expanduser().resolve()
+    if args.project:
+        project = Path(args.project).expanduser().resolve()
+    else:
+        project = target.parent
 
     if not project.exists():
         print(f"Project path does not exist: {project}", file=sys.stderr)
         sys.exit(2)
+    if not project.is_dir():
+        print(f"Project path is not a directory: {project}", file=sys.stderr)
+        sys.exit(2)
     if not target.exists():
         print(f"Target file does not exist: {target}", file=sys.stderr)
+        sys.exit(2)
+    try:
+        target.relative_to(project)
+    except ValueError:
+        print(
+            f"Target file {target} is not located inside project directory {project}",
+            file=sys.stderr,
+        )
         sys.exit(2)
 
     summary = repair(project, target, args.tests, args.budget, args.timeout, args.seed)

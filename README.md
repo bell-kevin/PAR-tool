@@ -42,6 +42,26 @@ python apr.py \
   --timeout 120
 ```
 
+> 💡 **Tip:** The `--project` flag is optional when your target file lives in the
+> directory you want to repair. In that case the tool automatically uses the
+> parent directory of `--target` as the project root. This makes it easy to run
+> the APR tool against standalone scripts or small reproductions.
+
+For example, on Windows you can point the tool at a script located in your
+Documents folder (notice the quoting around the path with spaces):
+
+```powershell
+python apr.py `
+  --target "C:\Users\Kevin Bell\Documents\massMerge.py" `
+  --tests "pytest -q" `
+  --budget 50
+```
+
+Substitute `--tests` with whichever command exercises your code (for instance
+`python -m pytest`, `python -m unittest`, or a custom script). The command must
+exit with status code 0 when the bug is fixed so that the APR tool can detect a
+successful repair.
+
 1. Install the test dependencies for your project (e.g., `pytest`).
 2. Place this repository somewhere convenient, or operate in-place.
 3. Run the command above, adjusting paths and parameters as needed.
@@ -68,7 +88,8 @@ optional.  Point the tool at any local project you want to repair.
 
 ### Arguments
 
-- `--project`: root directory containing your code and tests.
+- `--project`: root directory containing your code and tests. If omitted, the
+  parent directory of `--target` is used automatically.
 - `--target`: Python file to mutate (start with the file implicated by failing stack traces).
 - `--tests`: shell command that exits 0 when all tests pass.
 - `--budget`: maximum number of candidate patches to evaluate (default `200`).
