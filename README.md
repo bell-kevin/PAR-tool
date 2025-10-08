@@ -46,6 +46,26 @@ python apr.py \
 2. Place this repository somewhere convenient, or operate in-place.
 3. Run the command above, adjusting paths and parameters as needed.
 
+### FAQ
+
+**Is the PAR tool fully functional?**  Yes—this repository contains a working
+prototype that you can execute directly with `python apr.py ...`.  It already
+implements mutation operators, a search loop, and result reporting, so you do
+not need any additional binaries or third-party frameworks to try it out.
+
+**Do I need a sample program or tests?**  The tool works against *your* Python
+project.  Provide the path to a project directory plus a shell command that
+runs its tests (for example, `pytest -q` or `python -m unittest`).  The tool
+copies that project into a temporary workspace, mutates the designated target
+file, and repeatedly re-runs the test command to see whether any mutation fixes
+the bug.  Without a project and a meaningful test suite the tool has no oracle,
+so make sure you can run your tests successfully outside of the tool first.
+
+**Do I need datasets from program-repair.org?**  No external downloads are
+required.  Public benchmarks from program-repair.org (or anywhere else) can be
+useful if you want reproducible bug suites for experimentation, but they are
+optional.  Point the tool at any local project you want to repair.
+
 ### Arguments
 
 - `--project`: root directory containing your code and tests.
