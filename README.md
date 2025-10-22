@@ -131,3 +131,5 @@ After every run the `_apr_results/` directory contains:
 - Swap out the scoring heuristic in `Score` if your test framework prints different summary lines.
 
 Feel free to fork the project and build richer search strategies on top of this Java foundation.
+
+https://github.com/TruX-DTF/FL-VS-APR/tree/master/kPAR/src/main/java/edu/lu/uni/serval/par/templates
