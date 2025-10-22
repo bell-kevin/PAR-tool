@@ -1,6 +1,8 @@
 \documentclass[11pt]{article}
 \usepackage[margin=1in]{geometry}
 \usepackage{booktabs}
+\usepackage{tabularx}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
 \usepackage{enumitem}
 \usepackage{hyperref}
 \hypersetup{colorlinks=true, linkcolor=black, urlcolor=black}
@@ -30,7 +32,7 @@
 
 \begin{table}[h]
   \centering
-  \begin{tabular}{@{}llll@{}}
+  \begin{tabularx}{\textwidth}{@{}lYYY@{}}
     \toprule
     Subject & Failure Mode & Baseline (fail/error/pass) & Outcome \\
     \midrule
@@ -38,7 +40,7 @@
     \texttt{none\_equality} & Equality check triggers custom \texttt{\_\_eq\_\_} & 1 / 0 / 2 & Fixed via identity comparison. \\
     \texttt{bounds\_check} & Out-of-range list access & 2 / 0 / 1 & Fixed via bounds guard. \\
     \bottomrule
-  \end{tabular}
+  \end{tabularx}
 \end{table}
 
 Across all three benchmarks the tool synthesized a repair that restored the test suite, demonstrating end-to-end functionality and validating the mutation operators and pattern-matching components. Detailed artifacts (summary JSON, diffs, and repaired source) are included in \texttt{experiments/}.
