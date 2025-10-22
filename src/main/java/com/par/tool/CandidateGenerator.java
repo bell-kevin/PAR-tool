@@ -12,11 +12,17 @@ public final class CandidateGenerator {
 
     public List<Patch> generateCandidates(String source, MutationContext context, int limit) {
         List<Patch> patches = new ArrayList<>();
-        int perOperatorLimit = Math.max(limit, 20);
-        for (MutationOperator operator : operators) {
+        int operatorCount = operators.size();
+        for (int index = 0; index < operatorCount; index++) {
             if (patches.size() >= limit) {
                 break;
             }
+            MutationOperator operator = operators.get(index);
+            int remainingOperators = operatorCount - index;
+            int remainingBudget = limit - patches.size();
+            int perOperatorLimit = Math.max(
+                    (int) Math.ceil((double) remainingBudget / remainingOperators),
+                    1);
             List<Patch> generated = operator.generate(source, context, perOperatorLimit);
             for (Patch patch : generated) {
                 if (patches.size() >= limit) {
