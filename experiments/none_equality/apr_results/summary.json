@@ -1,0 +1,17 @@
+{
+  "status": "fixed",
+  "baseline": {
+    "exit": 1,
+    "failed": 1,
+    "errors": 0,
+    "passed": 2
+  },
+  "best": {
+    "score": 0,
+    "failed": 0,
+    "errors": 0,
+    "description": "Use identity check for None"
+  },
+  "tried": 13,
+  "detected_faults": ["LooseNoneEquality"]
+}

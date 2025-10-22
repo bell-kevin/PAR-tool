@@ -1,0 +1,7 @@
+--- /workspace/PAR-tool/experiments/null_guard/project/strings.py
++++ /workspace/PAR-tool/experiments/null_guard/project/strings.py (patched)
+@@ line 11 @@
+-    return text.title()
++    if text is not None:
+@@ line 12 @@
++        return text.title()

@@ -1,0 +1,17 @@
+{
+  "status": "fixed",
+  "baseline": {
+    "exit": 1,
+    "failed": 1,
+    "errors": 0,
+    "passed": 1
+  },
+  "best": {
+    "score": 0,
+    "failed": 0,
+    "errors": 0,
+    "description": "Null guard for text.title"
+  },
+  "tried": 5,
+  "detected_faults": ["NullDereference"]
+}

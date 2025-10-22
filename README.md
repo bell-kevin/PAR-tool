@@ -123,6 +123,19 @@ After every run the `_apr_results/` directory contains:
 
 ---
 
+## Submission Artifacts
+
+The `experiments/` directory bundles three data points that exercise the built-in pattern matcher:
+
+- `null_guard/` reproduces a missing `None` check on a method call, which the `NullCheckGuard` template repairs.
+- `none_equality/` captures an equality comparison against `None` that trips a user-defined `__eq__`, fixed by the `NoneEquality` template.
+- `bounds_check/` demonstrates the `BoundsGuard` template on an unchecked list index.
+
+Each experiment records the buggy Python module, its `pytest` suite, and the artifacts written by the Java runner (`summary.json`,
+`best_patch.diff`, and `best_patch.py`). The `report/project_report.tex` file provides the accompanying one-page LaTeX report summarizing the tool and its evaluation.
+
+---
+
 ## Extending the Tool
 
 - Add more `MutationOperator` implementations for specialized repairs.
