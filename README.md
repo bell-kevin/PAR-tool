@@ -8,6 +8,14 @@ Does my PAR tool have a fault database and a fix database? It almost definitely 
 
 I need to add the Crossover operation to my PAR tool.
 
+Do:
+  - 3 fault pattern
+  - 3 fix pattern
+
+API - Pattern matching - like null check
+
+End of to-do list
+
 # Prototype Program-based Automatic Program Repair (PAR) Tool (Python)
 
 Goal: implement a prototype-level automatic program repair (APR) tool that mutates Python source code using the `ast` module and validates candidate fixes against your project test suite.
