@@ -1,136 +1,133 @@
 <a name="readme-top"></a>
 
-# TO-DO LIST:
+# Java Program-based Automatic Repair (PAR) Prototype
 
-DO THIS ENTIRE PROJECT IN JAVA - NOT PYTHON
+This repository hosts a Java implementation of a prototype Program-based Automatic Repair (PAR) tool. The tool copies your project
+into an isolated working directory, applies mutation operators to a designated Python source file, and runs your regression test
+command to search for a repairing patch.
 
-Does my PAR tool have a fault database and a fix database? It almost definitely should.
-
-I need to add the Crossover operation to my PAR tool.
-
-Do:
-  - 3 fault pattern
-  - 3 fix pattern
-
-API - Pattern matching - like null check
-
-End of to-do list
-
-# Prototype Program-based Automatic Program Repair (PAR) Tool (Python)
-
-Goal: implement a prototype-level automatic program repair (APR) tool that mutates Python source code using the `ast` module and validates candidate fixes against your project test suite.
-
-This repository contains a runnable, generate-and-validate APR prototype: it copies your project into a temporary workspace, applies single-edit mutations, and runs your test command to search for a patch that reduces or eliminates failing tests.
+Even though the repaired program is Python, the entire repair workflow, mutation search, and pattern matching system are written
+in Java as requested. The implementation includes a lightweight fault/fix knowledge base, crossover search, and an extensible
+API for pattern-driven fixes (for example, automatically adding null checks).
 
 ---
 
 ## Features
 
-- **Program-based edit operations (PAR-style)**
-  - **Insert**: duplicate an existing statement to explore guard-style fixes.
-  - **Delete**: remove a statement while keeping bodies syntactically valid.
-  - **Swap**: exchange adjacent statements to reorder logic.
-  - **Mutate**: targeted expression-level rewrites (arithmetic operator swaps, comparison flips, boolean negation, and small integer tweaks).
-- **Search**: iterative single-edit search with a configurable budget.
-- **Oracle**: works with any shell test command (e.g., `pytest -q`, `python -m unittest -q`).
-- **Safety**: edits occur in a temporary copy of your project directory so your sources remain untouched.
-
-> ⚠️ Prototype: simple heuristics, single-file focus by default, and a minimal set of mutators. Good enough to demonstrate APR concepts end-to-end.
+- **Java CLI runner** (`com.par.tool.ParTool`) orchestrates project cloning, candidate patch evaluation, and result reporting.
+- **Mutation operators**
+  - Statement duplication, deletion, and adjacent swap.
+  - Arithmetic and comparison operator substitutions.
+  - Conditional negation and small-integer tweaking.
+  - Pattern-driven fixes sourced from a fix database (e.g., injecting `None` guards, normalizing `None` comparisons, and
+    inserting bounds checks).
+- **Crossover search** combines pairs of promising candidates to explore multi-edit repairs.
+- **Fault and fix databases** encode three diagnostic patterns and three repair templates that the pattern matcher can leverage
+  before random search begins.
+- **Result artifacts** under `_apr_results/` mirror the original Python prototype (`summary.json`, `best_patch.diff`, and
+  `best_patch.py`).
 
 ---
 
 ## Project Layout
 
-- `apr.py` — CLI runner that orchestrates copying your project, applying one-edit patches, running tests, and tracking the best patch found.
-- `mutators.py` — collection of AST node mutators implementing arithmetic/operator tweaks, condition negations, and other expression-level rewrites. Extend `NodeMutator` to add more repair operators (e.g., `None` checks, return-default templates, list bounds guards).
-- `_apr_results/` — output directory created at runtime containing `summary.json`, `best_patch.diff`, and `best_patch.py` for the strongest candidate discovered.
+```
+src/main/java/com/par/tool/
+├── CandidateGenerator.java
+├── Config.java
+├── CrossoverOperator.java
+├── FaultDatabase.java
+├── FaultPattern.java
+├── FileUtils.java
+├── FixDatabase.java
+├── FixPattern.java
+├── MutationContext.java
+├── MutationOperator.java
+├── ParRunner.java
+├── ParTool.java
+├── Patch.java
+├── PatternMatcher.java
+├── ProcessUtils.java
+├── Score.java
+├── SummaryWriter.java
+├── TestRunResult.java
+└── operators/
+    ├── ArithmeticOperator.java
+    ├── CompareOperator.java
+    ├── IfNegationOperator.java
+    ├── PatternBasedOperator.java
+    ├── SmallIntTweakerOperator.java
+    ├── StatementDeleteOperator.java
+    ├── StatementDuplicateOperator.java
+    └── StatementSwapOperator.java
+```
 
 ---
 
 ## Quickstart
 
+Compile the tool (requires Java 11+):
+
 ```bash
-python apr.py \
-  --project /path/to/your/project \
-  --target  /path/to/your/project/mypkg/module.py \
+javac -d out $(find src/main/java -name "*.java")
+```
+
+Run the repair search:
+
+```bash
+java -cp out com.par.tool.ParTool \
+  --project /path/to/project \
+  --target  /path/to/project/mypkg/module.py \
   --tests   "pytest -q" \
   --budget  200 \
   --timeout 120
 ```
 
-> 💡 **Tip:** The `--project` flag is optional when your target file lives in the
-> directory you want to repair. In that case the tool automatically uses the
-> parent directory of `--target` as the project root. This makes it easy to run
-> the APR tool against standalone scripts or small reproductions.
+Arguments mirror the original prototype:
 
-For example, on Windows you can point the tool at a script located in your
-Documents folder (notice the quoting around the path with spaces):
-
-```powershell
-python apr.py `
-  --target "C:\Users\Kevin Bell\Documents\massMerge.py" `
-  --tests "pytest -q" `
-  --budget 50
-```
-
-Substitute `--tests` with whichever command exercises your code (for instance
-`python -m pytest`, `python -m unittest`, or a custom script). The command must
-exit with status code 0 when the bug is fixed so that the APR tool can detect a
-successful repair.
-
-1. Install the test dependencies for your project (e.g., `pytest`).
-2. Place this repository somewhere convenient, or operate in-place.
-3. Run the command above, adjusting paths and parameters as needed.
-
-### FAQ
-
-**Is the PAR tool fully functional?**  Yes—this repository contains a working
-prototype that you can execute directly with `python apr.py ...`.  It already
-implements mutation operators, a search loop, and result reporting, so you do
-not need any additional binaries or third-party frameworks to try it out.
-
-**Do I need a sample program or tests?**  The tool works against *your* Python
-project.  Provide the path to a project directory plus a shell command that
-runs its tests (for example, `pytest -q` or `python -m unittest`).  The tool
-copies that project into a temporary workspace, mutates the designated target
-file, and repeatedly re-runs the test command to see whether any mutation fixes
-the bug.  Without a project and a meaningful test suite the tool has no oracle,
-so make sure you can run your tests successfully outside of the tool first.
-
-**Do I need datasets from program-repair.org?**  No external downloads are
-required.  Public benchmarks from program-repair.org (or anywhere else) can be
-useful if you want reproducible bug suites for experimentation, but they are
-optional.  Point the tool at any local project you want to repair.
-
-### Arguments
-
-- `--project`: root directory containing your code and tests. If omitted, the
-  parent directory of `--target` is used automatically.
-- `--target`: Python file to mutate (start with the file implicated by failing stack traces).
-- `--tests`: shell command that exits 0 when all tests pass.
-- `--budget`: maximum number of candidate patches to evaluate (default `200`).
+- `--project`: project root that will be copied into a temporary workspace (defaults to the parent of `--target`).
+- `--target`: Python file to mutate.
+- `--tests`: shell command that returns exit code `0` when all tests pass.
+- `--budget`: maximum number of candidates to evaluate (default `200`).
 - `--timeout`: seconds allowed per test run (default `120`).
+- `--seed`: seed for the mutation search (default `1337`).
 
-If the tool finds a patch that makes the tests pass, it saves the patched file and unified diff under `./_apr_results/` and emits a JSON result summary. If it only finds improvements (fewer failures), it retains and reports the best-so-far candidate.
+During execution the tool prints baseline test results, enumerates mutation attempts, and stops early if a full repair is found.
+All intermediate work happens on a temporary copy so your original project stays untouched.
 
 ---
 
-## Tips & Extensions
+## Pattern Matching API
 
-- Start with the specific file implicated by failing tests.
-- Lower `--budget` for quicker iterations; raise it for tougher bugs.
-- Point `--tests` at any command that accurately reflects project correctness.
-- Extend `mutators.py` to explore new mutation templates and search strategies.
-- Want more power? Potential next steps include coverage-guided fault localization, multi-edit search, or template-based repairs.
+The repair engine ships with a fault and fix database:
+
+- **Fault patterns** – `NullDereference`, `LooseNoneEquality`, and `UnsafeIndex` – capture common defects the tool can reason about.
+- **Fix patterns** – `NullCheckGuard`, `NoneEquality`, and `BoundsGuard` – supply ready-made repairs such as null checks, identity
+  comparisons for `None`, and list bounds guards.
+
+`PatternMatcher` exposes a simple API that other operators can call to detect known faults and generate fixes. The
+`PatternBasedOperator` integrates this API into the mutation search so these template-driven fixes are attempted alongside the
+stochastic operators. New patterns can be added by extending `FixPattern` and registering the implementation inside
+`FixDatabase`.
 
 ---
 
 ## Output
 
-- **Standard output**: running log plus the final JSON summary.
-- **`_apr_results/` directory**:
-  - `best_patch.diff`
-  - `best_patch.py`
-  - `summary.json`
+After every run the `_apr_results/` directory contains:
 
-<p align="right"><a href="#readme-top">back to top</a></p>
+- `summary.json` – JSON summary of the baseline run, best candidate, fault detections, and overall status (`fixed`, `improved`, or
+  `no_fix`).
+- `best_patch.py` – source code of the best candidate found (if any candidate improved the score).
+- `best_patch.diff` – simplified diff between the original target and the best candidate.
+
+---
+
+## Extending the Tool
+
+- Add more `MutationOperator` implementations for specialized repairs.
+- Register additional fault/fix patterns to grow the knowledge base.
+- Customize the crossover logic in `CrossoverOperator` to blend candidates differently.
+- Swap out the scoring heuristic in `Score` if your test framework prints different summary lines.
+
+Feel free to fork the project and build richer search strategies on top of this Java foundation.
