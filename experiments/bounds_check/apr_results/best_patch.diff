@@ -1,0 +1,7 @@
+--- /workspace/PAR-tool/experiments/bounds_check/project/list_access.py
++++ /workspace/PAR-tool/experiments/bounds_check/project/list_access.py (patched)
+@@ line 6 @@
+-    return items[index]
++    if 0 <= index < len(items):
+@@ line 7 @@
++        return items[index]

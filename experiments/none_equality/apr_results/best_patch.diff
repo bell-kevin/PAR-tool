@@ -1,0 +1,5 @@
+--- /workspace/PAR-tool/experiments/none_equality/project/status_checks.py
++++ /workspace/PAR-tool/experiments/none_equality/project/status_checks.py (patched)
+@@ line 11 @@
+-    if token == None:  # noqa: E711
++    if token is None:  # noqa: E711

@@ -1,0 +1,50 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=black, urlcolor=black}
+\setlength{\parskip}{0.6em}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+\begin{center}
+  {\LARGE\bfseries Program-based Automatic Repair Prototype}\\[0.5em]
+  {CS 6720 -- Fall 2025 Project Report}
+\end{center}
+
+\textbf{Team:} Kevin Bell \\
+\textbf{Repository:} \href{https://github.com/}{Private classroom submission}
+
+\textbf{Project Overview.} This project delivers a Java re-implementation of the PAR (Program-based Automatic Repair) workflow for Python programs. The tool copies a subject project into an isolated workspace, applies mutation and pattern-based operators to a designated Python file, and evaluates each candidate with a user-supplied regression test command. The prototype supports eight mutation operators, a lightweight fault/fix knowledge base, and crossover to combine promising candidates.
+
+\textbf{Design Highlights.}
+\begin{itemize}[leftmargin=1.25em]
+  \item A command-line runner (\texttt{com.par.tool.ParTool}) coordinates project cloning, mutation search, scoring, and artifact production under \texttt{\_apr\_results/}.
+  \item Mutation operators include statement deletion/duplication/swapping, arithmetic and comparison replacements, conditional negation, and small-integer tweaking. A pattern-based operator injects reusable repair templates.
+  \item The scoring system parses \texttt{pytest} output to prioritize candidates that reduce failures and stop early when a full repair is found.
+\end{itemize}
+
+\textbf{Experimental Setup.} Three self-contained Python fixtures were crafted to evaluate the repair workflow. Each fixture provides a buggy module and \texttt{pytest} suite. The prototype was executed with a search budget of 40 candidates, a 30-second per-test timeout, Python 3.11, and \texttt{pytest} 7.4.
+
+\begin{table}[h]
+  \centering
+  \begin{tabular}{@{}llll@{}}
+    \toprule
+    Subject & Failure Mode & Baseline (fail/error/pass) & Outcome \\
+    \midrule
+    \texttt{null\_guard} & Missing None guard on method call & 1 / 0 / 1 & Fixed via \texttt{NullCheckGuard}. \\
+    \texttt{none\_equality} & Equality check triggers custom \texttt{\_\_eq\_\_} & 1 / 0 / 2 & Fixed via identity comparison. \\
+    \texttt{bounds\_check} & Out-of-range list access & 2 / 0 / 1 & Fixed via bounds guard. \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Across all three benchmarks the tool synthesized a repair that restored the test suite, demonstrating end-to-end functionality and validating the mutation operators and pattern-matching components. Detailed artifacts (summary JSON, diffs, and repaired source) are included in \texttt{experiments/}.
+
+\textbf{Challenges.} Engineering the pattern-based operator required designing compact abstractions for recurring bug/fix pairs without overfitting to a single project. Balancing search depth and runtime was addressed by tuning operator probabilities and adding cheap heuristics to score candidates early.
+
+\textbf{Future Work.} Next steps include integrating richer statistical fault localization, expanding the fix database with more Python-specific templates, and evaluating the tool on open-source defect datasets such as QuixBugs or BugsInPy.
+
+\end{document}
