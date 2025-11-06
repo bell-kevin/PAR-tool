@@ -15,7 +15,8 @@ public final class PatternMatcher {
     public List<String> detectFaults(String source) {
         List<String> matches = new ArrayList<>();
         for (FaultPattern pattern : faultDatabase.patterns()) {
-            if (pattern.pattern().matcher(source).find()) {
+            int occurrences = PythonAstService.countFaultOccurrences(source, pattern.detectorKey());
+            if (occurrences > 0) {
                 matches.add(pattern.name());
             }
         }

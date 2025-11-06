@@ -1,16 +1,14 @@
 package com.par.tool;
 
-import java.util.regex.Pattern;
-
 public final class FaultPattern {
     private final String name;
     private final String description;
-    private final Pattern pattern;
+    private final String detectorKey;
 
-    public FaultPattern(String name, String description, Pattern pattern) {
+    public FaultPattern(String name, String description, String detectorKey) {
         this.name = name;
         this.description = description;
-        this.pattern = pattern;
+        this.detectorKey = detectorKey;
     }
 
     public String name() {
@@ -21,7 +19,7 @@ public final class FaultPattern {
         return description;
     }
 
-    public Pattern pattern() {
-        return pattern;
+    public String detectorKey() {
+        return detectorKey;
     }
 }
