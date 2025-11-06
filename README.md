@@ -66,21 +66,39 @@ src/main/java/com/par/tool/
 
 ## Quickstart
 
-Compile the tool (requires Java 11+):
+### Prerequisites
+
+- Java 11 or newer
+- [Apache Maven](https://maven.apache.org/) 3.9+
+
+### Build
+
+Use Maven to compile the project and produce the runnable classes:
 
 ```bash
-javac -d out $(find src/main/java -name "*.java")
+mvn -q clean compile
 ```
 
-Run the repair search:
+The command places compiled classes under `target/classes`. You can also build
+the distributable JAR with `mvn -q package`, which writes
+`target/par-tool-1.0-SNAPSHOT.jar`.
+
+### Run the repair search
+
+After compiling, invoke the CLI entrypoint with either the compiled classes or
+the packaged JAR:
 
 ```bash
-java -cp out com.par.tool.ParTool \
+# Using compiled classes
+java -cp target/classes com.par.tool.ParTool \
   --project /path/to/project \
   --target  /path/to/project/mypkg/module.py \
   --tests   "pytest -q" \
   --budget  200 \
   --timeout 120
+
+# Using the packaged JAR
+java -cp target/par-tool-1.0-SNAPSHOT.jar com.par.tool.ParTool [options]
 ```
 
 Arguments mirror the original prototype:
@@ -94,6 +112,15 @@ Arguments mirror the original prototype:
 
 During execution the tool prints baseline test results, enumerates mutation attempts, and stops early if a full repair is found.
 All intermediate work happens on a temporary copy so your original project stays untouched.
+
+### Run the unit tests
+
+This repository includes JUnit tests for the scoring logic, process runner, and
+pattern matcher. Execute them with:
+
+```bash
+mvn test
+```
 
 ---
 
