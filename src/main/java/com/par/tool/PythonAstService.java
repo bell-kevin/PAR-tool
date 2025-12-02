@@ -8,8 +8,10 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 final class PythonAstService {
+    private static final String PYTHON_CMD = detectPython();
     private static final String SCRIPT = String.join("\n",
             "import ast",
             "import copy",
@@ -100,8 +102,9 @@ final class PythonAstService {
             "",
             "    def visit_Assign(self, node):",
             "        node = self.generic_visit(node)",
-            "        if isinstance(node.value, ast.Subscript) and isinstance(node.value.value, ast.Name):",
-            "            index_name = _index_name(node.value.slice)",
+            "        target = node.targets[0] if node.targets else None",
+            "        if isinstance(target, ast.Subscript) and isinstance(target.value, ast.Name):",
+            "            index_name = _index_name(target.slice)",
             "            if index_name is not None:",
             "                if self.count == self.target:",
             "                    test = ast.Compare(",
@@ -109,11 +112,11 @@ final class PythonAstService {
             "                        ops=[ast.LtE(), ast.Lt()],",
             "                        comparators=[",
             "                            ast.Name(id=index_name, ctx=ast.Load()),",
-            "                            ast.Call(func=ast.Name(id='len', ctx=ast.Load()), args=[ast.Name(id=node.value.value.id, ctx=ast.Load())], keywords=[])",
+            "                            ast.Call(func=ast.Name(id='len', ctx=ast.Load()), args=[ast.Name(id=target.value.id, ctx=ast.Load())], keywords=[])",
             "                        ]",
             "                    )",
             "                    guarded = ast.If(test=test, body=[node], orelse=[])",
-            "                    self.description = f'Guard {node.value.value.id}[{index_name}] with bounds check'",
+            "                    self.description = f'Guard {target.value.id}[{index_name}] with bounds check'",
             "                    self.count += 1",
             "                    return guarded",
             "                self.count += 1",
@@ -214,7 +217,7 @@ final class PythonAstService {
 
     static List<Patch> applyFix(String source, String fixName, int limit) {
         try {
-            ProcessBuilder builder = new ProcessBuilder("python3", "-c", SCRIPT, "transform", fixName, Integer.toString(limit));
+            ProcessBuilder builder = new ProcessBuilder(PYTHON_CMD, "-c", SCRIPT, "transform", fixName, Integer.toString(limit));
             Process process = builder.start();
             try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(process.getOutputStream(), StandardCharsets.UTF_8))) {
                 writer.write(source);
@@ -236,7 +239,7 @@ final class PythonAstService {
 
     static int countFaultOccurrences(String source, String faultName) {
         try {
-            ProcessBuilder builder = new ProcessBuilder("python3", "-c", SCRIPT, "detect", faultName, "0");
+            ProcessBuilder builder = new ProcessBuilder(PYTHON_CMD, "-c", SCRIPT, "detect", faultName, "0");
             Process process = builder.start();
             try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(process.getOutputStream(), StandardCharsets.UTF_8))) {
                 writer.write(source);
@@ -278,6 +281,25 @@ final class PythonAstService {
                 // discard
             }
         }
+    }
+
+    private static String detectPython() {
+        String[] candidates = {"python3", "python"};
+        for (String candidate : candidates) {
+            try {
+                Process process = new ProcessBuilder(candidate, "--version").start();
+                int exit = process.waitFor(5, TimeUnit.SECONDS) ? process.exitValue() : -1;
+                drainErrors(process);
+                if (exit == 0) {
+                    return candidate;
+                }
+            } catch (IOException ignored) {
+                // try next candidate
+            } catch (InterruptedException ignored) {
+                Thread.currentThread().interrupt();
+            }
+        }
+        return "python3";
     }
 
     private static List<Patch> parsePatches(String stdout) {

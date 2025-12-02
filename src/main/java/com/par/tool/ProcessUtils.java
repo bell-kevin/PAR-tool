@@ -15,7 +15,7 @@ public final class ProcessUtils {
     private ProcessUtils() {}
 
     public static TestRunResult runCommand(String command, Path cwd, int timeoutSeconds) throws IOException, InterruptedException {
-        ProcessBuilder builder = new ProcessBuilder("bash", "-lc", command);
+        ProcessBuilder builder = new ProcessBuilder(shellCommand(), shellFlag(), command);
         builder.directory(cwd.toFile());
         Process process = builder.start();
 
@@ -34,6 +34,14 @@ public final class ProcessUtils {
         } finally {
             executor.shutdownNow();
         }
+    }
+
+    private static String shellCommand() {
+        return System.getProperty("os.name").toLowerCase().contains("win") ? "cmd.exe" : "bash";
+    }
+
+    private static String shellFlag() {
+        return System.getProperty("os.name").toLowerCase().contains("win") ? "/c" : "-lc";
     }
 
     private static Callable<String> streamToString(BufferedReader reader) {
