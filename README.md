@@ -101,6 +101,11 @@ java -cp target/classes com.par.tool.ParTool \
 java -cp target/par-tool-1.0-SNAPSHOT.jar com.par.tool.ParTool [options]
 ```
 
+Pattern matching happens automatically when you run the CLI. `ParTool` builds a
+`ParRunner` that constructs a `PatternMatcher` and registers the
+`PatternBasedOperator` alongside the stochastic operators, so every invocation
+detects faults and attempts template-based fixes without extra flags.
+
 Arguments mirror the original prototype:
 
 - `--project`: project root that will be copied into a temporary workspace (defaults to the parent of `--target`).
