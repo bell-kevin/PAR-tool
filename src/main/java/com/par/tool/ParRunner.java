@@ -65,6 +65,21 @@ public final class ParRunner {
             Score.ScoreResult baselineScore = Score.evaluate(baselineRun);
             System.out.println("BASELINE EXIT: " + baselineRun.exitCode());
             System.out.println("BASELINE SUMMARY: " + baselineScore.summary());
+            if (baselineRun.exitCode() == 127) {
+                System.out.println("Test command failed to launch (exit 127). Ensure the shell command is available and the tests command is valid.");
+                writeBaselineLogs(resultsDir, baselineRun);
+                String summary = SummaryWriter.createSummary(
+                        "test_command_failed",
+                        baselineRun.exitCode(),
+                        baselineScore,
+                        baselineScore,
+                        0,
+                        null,
+                        Collections.emptyList()
+                );
+                Files.writeString(resultsDir.resolve("summary.json"), summary);
+                return;
+            }
             if (baselineRun.exitCode() == 0) {
                 String summary = SummaryWriter.createSummary(
                         "already_passing",
@@ -155,5 +170,10 @@ public final class ParRunner {
         } finally {
             FileUtils.deleteRecursive(tempRoot);
         }
+    }
+
+    private void writeBaselineLogs(Path resultsDir, TestRunResult baselineRun) throws IOException {
+        Files.writeString(resultsDir.resolve("baseline_stdout.log"), baselineRun.stdout());
+        Files.writeString(resultsDir.resolve("baseline_stderr.log"), baselineRun.stderr());
     }
 }
