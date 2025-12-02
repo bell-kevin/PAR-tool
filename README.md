@@ -137,6 +137,10 @@ The repair engine ships with a fault and fix database:
 stochastic operators. New patterns can be added by extending `FixPattern` and registering the implementation inside
 `FixDatabase`.
 
+This interface is entirely in-process Java, not a REST service. Components such as `PatternBasedOperator` call methods like
+`detectFaults` and `createFixes` directly on in-memory source strings, and the matcher returns pattern names or `Patch`
+objects synchronously with no network layer involved.
+
 ---
 
 ## Output
