@@ -175,5 +175,3 @@ Feel free to fork the project and build richer search strategies on top of this 
 https://github.com/TruX-DTF/FL-VS-APR/tree/master/kPAR/src/main/java/edu/lu/uni/serval/par/templates
 
 https://docs.python.org/3/library/ast.html
-
-Dr. Arpit Christi says: "It is okay if it does not use any of the libraries that I discussed in class. If the PAR tool does text-based transformations, that is okay."
