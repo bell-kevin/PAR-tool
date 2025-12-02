@@ -64,7 +64,14 @@ public final class Config {
         }
 
         int budget = parseInt(options.getOrDefault("budget", "200"), 200, "budget");
+        if (budget <= 0) {
+            throw new IllegalArgumentException("--budget must be a positive integer, received: " + budget);
+        }
+
         int timeout = parseInt(options.getOrDefault("timeout", "120"), 120, "timeout");
+        if (timeout <= 0) {
+            throw new IllegalArgumentException("--timeout must be a positive integer, received: " + timeout);
+        }
         long seed = parseLong(options.getOrDefault("seed", "1337"), 1337L, "seed");
 
         return new Config(project, target, tests, budget, timeout, seed);
