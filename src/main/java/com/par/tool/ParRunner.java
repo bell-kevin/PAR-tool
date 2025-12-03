@@ -16,6 +16,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 import com.par.tool.MutationOperator;
 
@@ -55,11 +61,11 @@ public final class ParRunner {
         Path workingCopy = tempRoot.resolve(projectName);
         FileUtils.copyRecursive(config.getProject(), workingCopy);
         try {
-            Path relativeTarget = config.getProject().relativize(config.getTarget());
-            Path targetCopy = workingCopy.resolve(relativeTarget);
-            if (!Files.exists(targetCopy)) {
-                throw new IllegalStateException("Target file not found in working copy: " + targetCopy);
-            }
+        Path relativeTarget = config.getProject().relativize(config.getTarget());
+        Path targetCopy = workingCopy.resolve(relativeTarget);
+        if (!Files.exists(targetCopy)) {
+            throw new IllegalStateException("Target file not found in working copy: " + targetCopy);
+        }
 
             TestRunResult baselineRun = ProcessUtils.runCommand(config.getTestsCommand(), workingCopy, config.getTimeoutSeconds());
             Score.ScoreResult baselineScore = Score.evaluate(baselineRun);
@@ -106,46 +112,87 @@ public final class ParRunner {
             List<Patch> candidates = candidateGenerator.generateCandidates(originalSource, context, candidateLimit);
             Collections.shuffle(candidates, random);
 
-            Score.ScoreResult bestScore = baselineScore;
-            String bestSource = null;
-            String bestDescription = null;
-            String bestDiff = null;
-            int tried = 0;
+            System.out.printf("Detected %d logical processors; using %d worker threads.%n", config.getDetectedProcessors(), config.getThreads());
+            List<Path> workerCopies = prepareWorkerCopies(workingCopy, tempRoot.resolve("workers"), projectName, config.getThreads());
 
-            for (Patch patch : candidates) {
-                if (tried >= config.getBudget()) {
-                    break;
+            AtomicInteger attempts = new AtomicInteger();
+            AtomicBoolean foundFix = new AtomicBoolean(false);
+            AtomicReference<Score.ScoreResult> bestScore = new AtomicReference<>(baselineScore);
+            AtomicReference<String> bestSource = new AtomicReference<>(null);
+            AtomicReference<String> bestDescription = new AtomicReference<>(null);
+            AtomicReference<String> bestDiff = new AtomicReference<>(null);
+            Object bestLock = new Object();
+
+            ExecutorService executor = Executors.newFixedThreadPool(config.getThreads());
+            try {
+                for (Patch patch : candidates) {
+                    if (attempts.get() >= config.getBudget() || foundFix.get()) {
+                        break;
+                    }
+                    Patch candidate = patch;
+                    executor.submit(() -> {
+                        if (foundFix.get()) {
+                            return;
+                        }
+                        int attemptNumber = attempts.incrementAndGet();
+                        if (attemptNumber > config.getBudget()) {
+                            return;
+                        }
+
+                        Path workerCopy = workerCopies.get((attemptNumber - 1) % workerCopies.size());
+                        Path workerTarget = workerCopy.resolve(relativeTarget);
+                        try {
+                            Files.writeString(workerTarget, candidate.source());
+                            TestRunResult attempt = ProcessUtils.runCommand(config.getTestsCommand(), workerCopy, config.getTimeoutSeconds());
+                            Score.ScoreResult attemptScore = Score.evaluate(attempt);
+                            System.out.printf("[%d/%d] %s -> exit=%d score=%d summary=%s%n",
+                                    attemptNumber,
+                                    config.getBudget(),
+                                    candidate.description(),
+                                    attempt.exitCode(),
+                                    attemptScore.score(),
+                                    attemptScore.summary());
+
+                            synchronized (bestLock) {
+                                Score.ScoreResult currentBest = bestScore.get();
+                                if (attemptScore.score() < currentBest.score()) {
+                                    Path patchedName = Path.of(config.getTarget().toString() + " (patched)");
+                                    String diff = FileUtils.computeDiff(originalSource, candidate.source(), config.getTarget(), patchedName);
+                                    bestScore.set(attemptScore);
+                                    bestSource.set(candidate.source());
+                                    bestDescription.set(candidate.description());
+                                    bestDiff.set(diff);
+                                }
+                            }
+
+                            if (attempt.exitCode() == 0) {
+                                System.out.println("🎉 Found a full fix!");
+                                foundFix.set(true);
+                            }
+                        } catch (IOException | InterruptedException e) {
+                            throw new RuntimeException(e);
+                        } finally {
+                            try {
+                                Files.writeString(workerTarget, originalSource);
+                            } catch (IOException ignore) {
+                                // If we fail to reset the target, subsequent attempts may still succeed because each worker has an isolated copy.
+                            }
+                        }
+                    });
                 }
-                tried++;
-                Files.writeString(targetCopy, patch.source());
-                TestRunResult attempt = ProcessUtils.runCommand(config.getTestsCommand(), workingCopy, config.getTimeoutSeconds());
-                Score.ScoreResult attemptScore = Score.evaluate(attempt);
-                System.out.printf("[%d/%d] %s -> exit=%d score=%d summary=%s%n",
-                        tried,
-                        config.getBudget(),
-                        patch.description(),
-                        attempt.exitCode(),
-                        attemptScore.score(),
-                        attemptScore.summary());
-                if (attemptScore.score() < bestScore.score()) {
-                    bestScore = attemptScore;
-                    bestSource = patch.source();
-                    bestDescription = patch.description();
-                    Path patchedName = Path.of(config.getTarget().toString() + " (patched)");
-                    bestDiff = FileUtils.computeDiff(originalSource, patch.source(), config.getTarget(), patchedName);
-                }
-                if (attempt.exitCode() == 0) {
-                    System.out.println("🎉 Found a full fix!");
-                    break;
+            } finally {
+                executor.shutdown();
+                long waitSeconds = Math.max((long) config.getTimeoutSeconds() * config.getBudget(), config.getTimeoutSeconds());
+                if (!executor.awaitTermination(waitSeconds + 30, TimeUnit.SECONDS)) {
+                    executor.shutdownNow();
                 }
             }
 
-            Files.writeString(targetCopy, originalSource);
-
             String status;
-            if (bestScore.score() == 0) {
+            Score.ScoreResult best = bestScore.get();
+            if (best.score() == 0) {
                 status = "fixed";
-            } else if (bestScore.score() < baselineScore.score()) {
+            } else if (best.score() < baselineScore.score()) {
                 status = "improved";
             } else {
                 status = "no_fix";
@@ -155,17 +202,19 @@ public final class ParRunner {
                     status,
                     baselineRun.exitCode(),
                     baselineScore,
-                    bestScore,
-                    tried,
-                    bestDescription,
+                    best,
+                    attempts.get(),
+                    bestDescription.get(),
                     detectedFaults
             );
             Files.writeString(resultsDir.resolve("summary.json"), summary);
-            if (bestSource != null) {
-                Files.writeString(resultsDir.resolve("best_patch.py"), bestSource);
+            String bestSourceText = bestSource.get();
+            if (bestSourceText != null) {
+                Files.writeString(resultsDir.resolve("best_patch.py"), bestSourceText);
             }
-            if (bestDiff != null && !bestDiff.isBlank()) {
-                Files.writeString(resultsDir.resolve("best_patch.diff"), bestDiff);
+            String diffText = bestDiff.get();
+            if (diffText != null && !diffText.isBlank()) {
+                Files.writeString(resultsDir.resolve("best_patch.diff"), diffText);
             }
         } finally {
             FileUtils.deleteRecursive(tempRoot);
@@ -175,5 +224,17 @@ public final class ParRunner {
     private void writeBaselineLogs(Path resultsDir, TestRunResult baselineRun) throws IOException {
         Files.writeString(resultsDir.resolve("baseline_stdout.log"), baselineRun.stdout());
         Files.writeString(resultsDir.resolve("baseline_stderr.log"), baselineRun.stderr());
+    }
+
+    private List<Path> prepareWorkerCopies(Path workingCopy, Path workersRoot, Path projectName, int threads) throws IOException {
+        List<Path> copies = new ArrayList<>();
+        Files.createDirectories(workersRoot);
+        for (int i = 0; i < threads; i++) {
+            Path workerRoot = workersRoot.resolve("worker_" + i);
+            Path workerProject = workerRoot.resolve(projectName);
+            FileUtils.copyRecursive(workingCopy, workerProject);
+            copies.add(workerProject);
+        }
+        return copies;
     }
 }

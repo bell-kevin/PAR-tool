@@ -116,6 +116,7 @@ Arguments mirror the original prototype:
 - `--budget`: maximum number of candidates to evaluate (default `200`).
 - `--timeout`: seconds allowed per test run (default `120`).
 - `--seed`: seed for the mutation search (default `1337`).
+- `--threads`: worker threads for parallel candidate evaluation (defaults to the detected logical processor count).
 
 During execution the tool prints baseline test results, enumerates mutation attempts, and stops early if a full repair is found.
 All intermediate work happens on a temporary copy so your original project stays untouched.
