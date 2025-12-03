@@ -12,14 +12,18 @@ public final class Config {
     private final int budget;
     private final int timeoutSeconds;
     private final long seed;
+    private final int threads;
+    private final int detectedProcessors;
 
-    private Config(Path project, Path target, String testsCommand, int budget, int timeoutSeconds, long seed) {
+    private Config(Path project, Path target, String testsCommand, int budget, int timeoutSeconds, long seed, int threads, int detectedProcessors) {
         this.project = project;
         this.target = target;
         this.testsCommand = testsCommand;
         this.budget = budget;
         this.timeoutSeconds = timeoutSeconds;
         this.seed = seed;
+        this.threads = threads;
+        this.detectedProcessors = detectedProcessors;
     }
 
     public static Config parse(String[] args) {
@@ -74,7 +78,13 @@ public final class Config {
         }
         long seed = parseLong(options.getOrDefault("seed", "1337"), 1337L, "seed");
 
-        return new Config(project, target, tests, budget, timeout, seed);
+        int detectedProcessors = Math.max(1, Runtime.getRuntime().availableProcessors());
+        int threads = parseInt(options.getOrDefault("threads", String.valueOf(detectedProcessors)), detectedProcessors, "threads");
+        if (threads <= 0) {
+            throw new IllegalArgumentException("--threads must be a positive integer, received: " + threads);
+        }
+
+        return new Config(project, target, tests, budget, timeout, seed, threads, detectedProcessors);
     }
 
     private static int parseInt(String value, int defaultValue, String option) {
@@ -115,5 +125,13 @@ public final class Config {
 
     public long getSeed() {
         return seed;
+    }
+
+    public int getThreads() {
+        return threads;
+    }
+
+    public int getDetectedProcessors() {
+        return detectedProcessors;
     }
 }
