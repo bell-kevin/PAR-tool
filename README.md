@@ -187,3 +187,5 @@ Feel free to fork the project and build richer search strategies on top of this 
 https://github.com/TruX-DTF/FL-VS-APR/tree/master/kPAR/src/main/java/edu/lu/uni/serval/par/templates
 
 https://docs.python.org/3/library/ast.html
+
+<p align="right"><a href="#readme-top">back to top</a></p>
