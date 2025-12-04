@@ -1,0 +1,258 @@
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Install the latest PowerShell for new features and improvements! https://aka.ms/PSWindows
+
+PS C:\Users\Kevin Bell\IdeaProjects\PAR-tool> java --version                                                                                                                       
+openjdk 21.0.8 2025-07-15 LTS
+OpenJDK Runtime Environment Temurin-21.0.8+9 (build 21.0.8+9-LTS)
+OpenJDK 64-Bit Server VM Temurin-21.0.8+9 (build 21.0.8+9-LTS, mixed mode, sharing)
+PS C:\Users\Kevin Bell\IdeaProjects\PAR-tool> python --version
+Python 3.13.3
+PS C:\Users\Kevin Bell\IdeaProjects\PAR-tool> scoop install maven
+Updating Scoop...
+Updating Buckets...
+ * 2801ef068859 sqlite@3.51.1: Fix hash (Closes #7422)                   main         17 minutes ago
+ * 09c2db91a447 sqldef: Update to version 3.7.2                          main         37 minutes ago
+ * 00100e74f25a flyctl: Update to version 0.3.229                        main         37 minutes ago
+ * 7690eec35a09 dolt: Update to version 1.78.6                           main         37 minutes ago
+ * 7ec9346fdff4 cuda: Update to version 13.1.0                           main         37 minutes ago
+ * ca1446d81371 codex: Update to version 0.65.0                          main         37 minutes ago
+ * c90272fd9031 aws: Update to version 2.32.10                           main         37 minutes ago
+ * e2c17d08b6e4 jdupes@1.31.1: Fix download URL & hash (Closes #7419)    main         3 hours ago
+ * a67b196ffa5b wakatime-cli: Update to version 1.132.1                  main         5 hours ago
+ * 3cedb86942d2 ruff: Update to version 0.14.8                           main         5 hours ago
+ * 855816717e1f poppler: Update to version 25.12.0-0                     main         5 hours ago
+ * fd58ab7597a5 pocketbase: Update to version 0.34.2                     main         5 hours ago
+ * 3bb1a624cfa0 okteto: Update to version 3.14.0                         main         5 hours ago
+ * 7efb4df40640 jsonschema: Update to version 12.10.0                    main         5 hours ago
+ * d951c3a5223f golangci-lint: Update to version 2.7.1                   main         5 hours ago
+ * 1ef30b1e7f3d exiftool: Update to version 13.43                        main         5 hours ago
+ * 57d9965f89f1 broot@1.54.0: Fix hash (Closes #7421)                    main         6 hours ago
+ * 2b9ffc1e6990 mise: Update to version 2025.12.0                        main         9 hours ago
+ * fd3a0c50ba62 kimi-cli: Update to version 0.61                         main         9 hours ago
+ * ed29d89536b4 rustic: Update to version 0.10.2 (#7399)                 main         10 hours ago
+ * 2d05c85dc90c supabase: Update to version 2.65.5                       main         13 hours ago
+ * 0aa355e70da1 jj: Update to version 0.36.0                             main         13 hours ago
+ * e7fb6c0d6509 pkl-cli: Update to version 0.30.1                        main         20 hours ago
+ * ac0a5e0c23c1 nuget: Update to version 7.0.1                           main         20 hours ago
+ * 4784aa1ad59f istioctl: Update to version 1.28.1                       main         20 hours ago
+ * 91ab8a31b435 firebase: Update to version 14.27.0                      main         20 hours ago
+ * b44aa9f2fcfd cockroachdb: Update to version 25.4.1                    main         20 hours ago
+ * 3212da8f39f2 chezmoi: Update to version 2.68.0                        main         20 hours ago
+ * 9439b396040e cc65: Update to version 19909321171                      main         20 hours ago
+ * d66b981742db balena-cli: Update to version 23.2.4                     main         20 hours ago
+ * ca9ac095ffee aws-sam-cli: Update to version 1.150.1                   main         20 hours ago
+ * a23ebc2b3df2 zvm: Update to version 0.8.11                            main         25 hours ago
+ * fff05e247c6f typst: Update to version 0.14.1                          main         25 hours ago
+ * 93c1109df2e2 sqldef: Update to version 3.7.1                          main         25 hours ago
+ * 3441d06c1f44 pulumi: Update to version 3.210.0                        main         25 hours ago
+ * 489473e49346 jsonschema: Update to version 12.9.3                     main         25 hours ago
+ * c41686f88f89 harper: Update to version 1.1.0                          main         25 hours ago
+ * 7facbdf872b1 groovy: Update to version 5.0.3                          main         25 hours ago
+ * 77b9a0e12c12 golangci-lint: Update to version 2.7.0                   main         25 hours ago
+ * 399777424e02 flyctl: Update to version 0.3.228                        main         25 hours ago
+ * e413cd46069e broot: Update to version 1.54.0                          main         25 hours ago
+ * 1293597bb404 aws: Update to version 2.32.9                            main         25 hours ago
+ * f289ab5ce8ff wakatime-cli: Update to version 1.132.0                  main         29 hours ago
+ * b9d9272a7f9e terraform-provider-ibm: Update to version 1.86.0         main         29 hours ago
+ * cd5ea11ea6f1 sonar-scanner: Update to version 8.0.0.6341              main         29 hours ago
+ * d6f2773f0218 quarkus-cli: Update to version 3.30.2                    main         29 hours ago
+ * 5480fc77614d metabase: Update to version 0.57.5                       main         29 hours ago
+ * a208cc456a09 meilisearch: Update to version 1.28.2                    main         29 hours ago
+ * ad92b485c524 lefthook: Update to version 2.0.7                        main         29 hours ago
+ * 40cb771c0c1d jsonschema: Update to version 12.9.1                     main         29 hours ago
+ * 468988ab6641 jdtls: Update to version 1.55.0-202512031605             main         29 hours ago
+ * ccef3c8efe60 git-machete: Update to version 3.38.0                    main         29 hours ago
+ * f447db35efbc cmctl: Update to version 2.4.0                           main         29 hours ago
+ * 717cc19b8e46 trivy: Update to version 0.68.1                          main         33 hours ago
+ * 41506f798030 trid: Update to version 2.46-25.12.03                    main         33 hours ago
+ * e256e42e9684 terraform: Update to version 1.14.1                      main         33 hours ago
+ * 82cd42e47f12 sqldef: Update to version 3.7.0                          main         33 hours ago
+ * 06d5a8832fec solidity: Update to version 0.8.31                       main         33 hours ago
+ * a230d83a7599 pixi: Update to version 0.60.0                           main         33 hours ago
+ * d75abe76360d llvm: Update to version 21.1.7                           main         33 hours ago
+ * 2d65dba9e5fa kyverno-cli: Update to version 1.16.1                    main         33 hours ago
+ * 7175f670af12 lefthook: Update to version 2.0.6                        main         2 days ago
+ * 6a641be33db9 crc: Update to version 2.57.0                            main         2 days ago
+ * 105b3f0273dd aliyun: Update to version 3.2.0                          main         2 days ago
+ * 0135ebc921d7 uv: Update to version 0.9.15                             main         2 days ago
+ * 83974425dadc supabase: Update to version 2.65.2                       main         2 days ago
+ * 369acfe44fc1 openshift-okd-client: Update to version 4.21.0-okd-sco.. main         2 days ago
+ * bf2ed8951779 luau: Update to version 0.702                            main         2 days ago
+ * 11d7985dbf32 aws-sam-cli: Update to version 1.150.0                   main         2 days ago
+Scoop was updated successfully!
+WARN  'maven' (3.9.11) is already installed.
+Use 'scoop update maven' to install a new version.                                                                                                                                 
+PS C:\Users\Kevin Bell\IdeaProjects\PAR-tool> choco -v
+2.4.3
+PS C:\Users\Kevin Bell\IdeaProjects\PAR-tool> $env:PATH += ";$env:USERPROFILE\scoop\apps\maven\current\bin"                                                                        
+PS C:\Users\Kevin Bell\IdeaProjects\PAR-tool> mvn -v
+Apache Maven 3.9.11 (3e54c93a704957b63ee3494413a2b544fd3d825b)
+Maven home: C:\Users\Kevin Bell\scoop\apps\maven\current
+Java version: 21.0.8, vendor: Eclipse Adoptium, runtime: C:\Program Files\Eclipse Adoptium\jdk-21.0.8.9-hotspot
+Default locale: en_US, platform encoding: UTF-8
+OS name: "windows 11", version: "10.0", arch: "amd64", family: "windows"
+PS C:\Users\Kevin Bell\IdeaProjects\PAR-tool> mvn -q clean compile
+PS C:\Users\Kevin Bell\IdeaProjects\PAR-tool> java -cp target/classes com.par.tool.ParTool `
+>>   --project "$PWD/experiments/null_guard/project" `                                                                                                                             
+>>   --target  "$PWD/experiments/null_guard/project/strings.py" `                                                                                                                  
+>>   --tests   "pytest -q" `                                                                                                                                                       
+>>   --budget  200 `                                                                                                                                                               
+>>   --timeout 120                                                                                                                                                                 
+BASELINE EXIT: 1
+BASELINE SUMMARY: failed=1, errors=0, passed=1
+Detected fault patterns: [NullDereference]
+Detected 32 logical processors; using 32 worker threads.
+[28/200] Crossover of [StatementDeleteOperator line=4] + [StatementSwapOperator lines=4/5] -> exit=2 score=1 summary=failed=0, errors=1
+[29/200] StatementSwapOperator lines=9/10 -> exit=2 score=1 summary=failed=0, errors=1
+[30/200] Crossover of [StatementDuplicateOperator line=5] + [StatementSwapOperator lines=7/8] -> exit=2 score=1 summary=failed=0, errors=1
+[27/200] Crossover of [StatementDeleteOperator line=5] + [StatementDeleteOperator line=8] -> exit=2 score=1 summary=failed=0, errors=1
+[1/200] ArithmeticOperator line=4 replace=-->+ -> exit=2 score=1 summary=failed=0, errors=1
+[18/200] Crossover of [StatementDuplicateOperator line=4] + [StatementDeleteOperator line=9] -> exit=2 score=1 summary=failed=0, errors=1
+[23/200] StatementDuplicateOperator line=5 -> exit=2 score=1 summary=failed=0, errors=1
+[21/200] Crossover of [StatementDuplicateOperator line=5] + [StatementDeleteOperator line=10] -> exit=2 score=1 summary=failed=0, errors=1
+[19/200] Crossover of [StatementDuplicateOperator line=4] + [StatementSwapOperator lines=9/10] -> exit=2 score=1 summary=failed=0, errors=1
+[22/200] Crossover of [StatementDuplicateOperator line=5] + [StatementDuplicateOperator line=9] -> exit=2 score=1 summary=failed=0, errors=1
+[20/200] Crossover of [StatementDeleteOperator line=5] + [StatementSwapOperator lines=4/5] -> exit=2 score=1 summary=failed=0, errors=1
+[14/200] Crossover of [StatementDuplicateOperator line=5] + [StatementDeleteOperator line=9] -> exit=2 score=1 summary=failed=0, errors=1
+[16/200] Crossover of [StatementDuplicateOperator line=4] + [StatementSwapOperator lines=7/8] -> exit=2 score=1 summary=failed=0, errors=1
+[3/200] Crossover of [StatementDeleteOperator line=4] + [StatementSwapOperator lines=8/9] -> exit=2 score=1 summary=failed=0, errors=1
+[8/200] Crossover of [StatementDuplicateOperator line=5] + [StatementSwapOperator lines=9/10] -> exit=2 score=1 summary=failed=0, errors=1
+[13/200] Crossover of [StatementDeleteOperator line=5] + [StatementSwapOperator lines=9/10] -> exit=2 score=1 summary=failed=0, errors=1
+[10/200] Crossover of [StatementDeleteOperator line=4] + [StatementDeleteOperator line=10] -> exit=2 score=1 summary=failed=0, errors=1
+[11/200] Crossover of [StatementDuplicateOperator line=4] + [StatementDeleteOperator line=11] -> exit=2 score=1 summary=failed=0, errors=1
+[12/200] Crossover of [StatementDuplicateOperator line=5] + [StatementDeleteOperator line=1] -> exit=2 score=1 summary=failed=0, errors=1
+[5/200] Crossover of [StatementDeleteOperator line=5] + [StatementSwapOperator lines=8/9] -> exit=2 score=1 summary=failed=0, errors=1
+[7/200] StatementDuplicateOperator line=4 -> exit=2 score=1 summary=failed=0, errors=1
+[2/200] Crossover of [StatementDeleteOperator line=4] + [StatementSwapOperator lines=10/11] -> exit=2 score=1 summary=failed=0, errors=1
+[9/200] Crossover of [StatementDuplicateOperator line=4] + [StatementDuplicateOperator line=7] -> exit=2 score=1 summary=failed=0, errors=1
+[32/200] Crossover of [StatementDuplicateOperator line=7] + [StatementSwapOperator lines=4/5] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[25/200] Crossover of [StatementDeleteOperator line=1] + [StatementDeleteOperator line=9] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[31/200] Crossover of [StatementDuplicateOperator line=1] + [StatementSwapOperator lines=4/5] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[26/200] StatementDeleteOperator line=11 -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[17/200] Crossover of [StatementDeleteOperator line=1] + [StatementSwapOperator lines=7/8] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[24/200] Crossover of [StatementDuplicateOperator line=1] + [StatementDuplicateOperator line=7] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[6/200] Crossover of [StatementDuplicateOperator line=1] + [StatementDeleteOperator line=11] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[15/200] Crossover of [StatementDuplicateOperator line=1] + [StatementDeleteOperator line=8] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[4/200] StatementDuplicateOperator line=1 -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[48/200] Crossover of [StatementDeleteOperator line=1] + [StatementSwapOperator lines=9/10] -> exit=2 score=1 summary=failed=0, errors=1
+[46/200] Crossover of [StatementDeleteOperator line=5] + [StatementDeleteOperator line=11] -> exit=2 score=1 summary=failed=0, errors=1
+[52/200] Crossover of [StatementDuplicateOperator line=4] + [StatementSwapOperator lines=4/5] -> exit=2 score=1 summary=failed=0, errors=1
+[59/200] Crossover of [StatementDeleteOperator line=4] + [StatementDeleteOperator line=7] -> exit=2 score=1 summary=failed=0, errors=1
+[57/200] Crossover of [StatementDeleteOperator line=4] + [StatementSwapOperator lines=7/8] -> exit=2 score=1 summary=failed=0, errors=1
+[53/200] StatementDeleteOperator line=5 -> exit=2 score=1 summary=failed=0, errors=1
+[61/200] Crossover of [StatementSwapOperator lines=4/5] + [StatementSwapOperator lines=7/8] -> exit=2 score=1 summary=failed=0, errors=1
+[60/200] Crossover of [StatementDeleteOperator line=5] + [StatementDeleteOperator line=9] -> exit=2 score=1 summary=failed=0, errors=1
+[63/200] Crossover of [StatementDeleteOperator line=5] + [StatementSwapOperator lines=7/8] -> exit=2 score=1 summary=failed=0, errors=1
+[33/200] Crossover of [StatementDeleteOperator line=1] + [StatementDeleteOperator line=10] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[34/200] Crossover of [StatementDuplicateOperator line=4] + [StatementDuplicateOperator line=9] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[36/200] Crossover of [StatementDuplicateOperator line=5] + [StatementSwapOperator lines=8/9] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[38/200] Crossover of [StatementDuplicateOperator line=4] + [StatementDuplicateOperator line=8] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[37/200] StatementSwapOperator lines=8/9 -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[35/200] Crossover of [StatementDuplicateOperator line=5] + [StatementDuplicateOperator line=8] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[39/200] Crossover of [StatementDuplicateOperator line=5] + [StatementSwapOperator lines=4/5] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[41/200] StatementSwapOperator lines=4/5 -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[71/200] Crossover of [StatementDeleteOperator line=4] + [StatementDeleteOperator line=11] -> exit=2 score=1 summary=failed=0, errors=1
+[42/200] Crossover of [StatementDuplicateOperator line=1] + [StatementDuplicateOperator line=11] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[43/200] Crossover of [StatementDuplicateOperator line=1] + [StatementSwapOperator lines=7/8] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[45/200] Crossover of [StatementSwapOperator lines=4/5] + [StatementSwapOperator lines=9/10] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[40/200] Crossover of [StatementDeleteOperator line=1] + [StatementSwapOperator lines=10/11] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[58/200] Crossover of [StatementDeleteOperator line=5] + [StatementSwapOperator lines=10/11] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[47/200] Crossover of [StatementDuplicateOperator line=4] + [StatementSwapOperator lines=10/11] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[55/200] StatementSwapOperator lines=10/11 -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[56/200] StatementDuplicateOperator line=10 -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[49/200] Crossover of [StatementDuplicateOperator line=4] + [StatementSwapOperator lines=8/9] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[51/200] StatementDeleteOperator line=8 -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[44/200] StatementDuplicateOperator line=9 -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[62/200] StatementDeleteOperator line=7 -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[54/200] Crossover of [StatementDuplicateOperator line=1] + [StatementDuplicateOperator line=8] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[50/200] StatementSwapOperator lines=7/8 -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[64/200] Crossover of [StatementDuplicateOperator line=1] + [StatementDeleteOperator line=1] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[68/200] Crossover of [StatementDuplicateOperator line=4] + [StatementDeleteOperator line=10] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[67/200] Crossover of [StatementDeleteOperator line=4] + [StatementDeleteOperator line=9] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[66/200] StatementDeleteOperator line=1 -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[69/200] Crossover of [StatementDuplicateOperator line=5] + [StatementDuplicateOperator line=7] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[65/200] StatementDeleteOperator line=9 -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[70/200] Crossover of [StatementDeleteOperator line=5] + [StatementDeleteOperator line=10] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[72/200] Crossover of [StatementDuplicateOperator line=1] + [StatementSwapOperator lines=8/9] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[73/200] StatementDuplicateOperator line=11 -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[80/200] Crossover of [StatementDuplicateOperator line=5] + [StatementDuplicateOperator line=10] -> exit=2 score=1 summary=failed=0, errors=1
+[74/200] Crossover of [StatementDuplicateOperator line=1] + [StatementSwapOperator lines=9/10] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[75/200] StatementDuplicateOperator line=8 -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[76/200] Crossover of [StatementDuplicateOperator line=1] + [StatementDeleteOperator line=9] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[77/200] Crossover of [StatementDuplicateOperator line=1] + [StatementDuplicateOperator line=10] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[78/200] Crossover of [StatementDeleteOperator line=1] + [StatementSwapOperator lines=4/5] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[79/200] CompareOperator line=4 replace=>->>= -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[85/200] Crossover of [StatementDuplicateOperator line=5] + [StatementDuplicateOperator line=11] -> exit=2 score=1 summary=failed=0, errors=1
+[84/200] Crossover of [StatementDuplicateOperator line=5] + [StatementSwapOperator lines=10/11] -> exit=2 score=1 summary=failed=0, errors=1
+[96/200] Crossover of [StatementDuplicateOperator line=4] + [StatementDeleteOperator line=1] -> exit=2 score=1 summary=failed=0, errors=1
+[95/200] Crossover of [StatementDuplicateOperator line=5] + [StatementDeleteOperator line=11] -> exit=2 score=1 summary=failed=0, errors=1
+[89/200] Crossover of [StatementSwapOperator lines=4/5] + [StatementSwapOperator lines=8/9] -> exit=2 score=1 summary=failed=0, errors=1
+[94/200] Crossover of [StatementDeleteOperator line=5] + [StatementDeleteOperator line=7] -> exit=2 score=1 summary=failed=0, errors=1
+[91/200] Crossover of [StatementDuplicateOperator line=4] + [StatementDuplicateOperator line=10] -> exit=2 score=1 summary=failed=0, errors=1
+[82/200] Crossover of [StatementSwapOperator lines=4/5] + [StatementSwapOperator lines=10/11] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[81/200] Crossover of [StatementDuplicateOperator line=4] + [StatementDuplicateOperator line=11] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[99/200] Crossover of [StatementDeleteOperator line=4] + [StatementSwapOperator lines=9/10] -> exit=2 score=1 summary=failed=0, errors=1
+[100/200] StatementDeleteOperator line=4 -> exit=2 score=1 summary=failed=0, errors=1
+[101/200] Crossover of [StatementDuplicateOperator line=4] + [StatementDeleteOperator line=8] -> exit=2 score=1 summary=failed=0, errors=1
+[83/200] Crossover of [StatementDuplicateOperator line=1] + [StatementDeleteOperator line=10] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[86/200] Crossover of [StatementDeleteOperator line=1] + [StatementDeleteOperator line=11] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[88/200] StatementDeleteOperator line=10 -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[90/200] StatementDuplicateOperator line=7 -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[92/200] Crossover of [StatementDuplicateOperator line=7] + [StatementDeleteOperator line=1] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[97/200] Crossover of [StatementDeleteOperator line=4] + [StatementDeleteOperator line=8] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[93/200] Crossover of [StatementDeleteOperator line=1] + [StatementDeleteOperator line=7] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[87/200] Crossover of [StatementDuplicateOperator line=1] + [StatementDuplicateOperator line=9] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[98/200] Crossover of [StatementDeleteOperator line=1] + [StatementDeleteOperator line=8] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[102/200] Crossover of [StatementDuplicateOperator line=5] + [StatementDeleteOperator line=8] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[103/200] Crossover of [StatementDuplicateOperator line=1] + [StatementSwapOperator lines=10/11] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+[104/200] Crossover of [StatementDeleteOperator line=1] + [StatementSwapOperator lines=8/9] -> exit=1 score=1 summary=failed=1, errors=0, passed=1
+PS C:\Users\Kevin Bell\IdeaProjects\PAR-tool> mvn test
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------------------< com.par:par-tool >--------------------------
+[INFO] Building par-tool 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ par-tool ---
+[INFO] skip non existing resourceDirectory C:\Users\Kevin Bell\IdeaProjects\PAR-tool\src\main\resources
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ par-tool ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ par-tool ---
+[INFO] skip non existing resourceDirectory C:\Users\Kevin Bell\IdeaProjects\PAR-tool\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ par-tool ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 4 source files with javac [debug target 11] to target\test-classes
+[WARNING] system modules path not set in conjunction with -source 11
+[INFO] 
+[INFO] --- surefire:3.2.5:test (default-test) @ par-tool ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.par.tool.ConfigTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.073 s -- in com.par.tool.ConfigTest
+[INFO] Running com.par.tool.PatternMatcherTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.371 s -- in com.par.tool.PatternMatcherTest
+[INFO] Running com.par.tool.ProcessUtilsTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.232 s -- in com.par.tool.ProcessUtilsTest
+[INFO] Running com.par.tool.ScoreTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 s -- in com.par.tool.ScoreTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  4.231 s
+[INFO] Finished at: 2025-12-04T14:11:17-07:00
+[INFO] ------------------------------------------------------------------------
+PS C:\Users\Kevin Bell\IdeaProjects\PAR-tool>
