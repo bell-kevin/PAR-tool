@@ -108,6 +108,16 @@ Pattern matching happens automatically when you run the CLI. `ParTool` builds a
 `PatternBasedOperator` alongside the stochastic operators, so every invocation
 detects faults and attempts template-based fixes without extra flags.
 
+### How pattern matching works
+
+The Java matcher shells out to a small Python helper that uses the standard
+library `ast` module. The Python script parses the target file with `ast.parse`,
+walks the tree to detect known faults, applies `ast.NodeTransformer`
+subclasses to build patched trees, then unparses the modified AST back to
+source. Java launches this helper as a subprocess and consumes the rewritten
+source to keep the repair workflow in Java while delegating AST manipulation to
+Python.
+
 Arguments mirror the original prototype:
 
 - `--project`: project root that will be copied into a temporary workspace (defaults to the parent of `--target`).
