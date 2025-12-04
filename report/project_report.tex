@@ -5,6 +5,7 @@
 \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
 \usepackage{enumitem}
 \usepackage{hyperref}
+\usepackage{fvextra}
 \hypersetup{colorlinks=true, linkcolor=black, urlcolor=black}
 \setlength{\parskip}{0.6em}
 \setlength{\parindent}{0pt}
@@ -50,7 +51,8 @@ Across all three benchmarks the tool synthesized a repair that restored the test
 \textbf{Future Work.} Next steps include integrating richer statistical fault localization, expanding the fix database with more Python-specific templates, and evaluating the tool on open-source defect datasets such as QuixBugs or BugsInPy.
 
 \textbf{Terminal Output.} The following log captures the environment setup and experiment execution on Windows PowerShell.
-\begin{verbatim}
+{\small
+\begin{Verbatim}[breaklines=true, breakanywhere=true]
 Windows PowerShell
 Copyright (C) Microsoft Corporation. All rights reserved.
 
@@ -263,6 +265,7 @@ PS C:\Users\Kevin Bell\IdeaProjects\PAR-tool> mvn test
 [INFO] Finished at: 2025-12-04T14:11:17-07:00
 [INFO] ------------------------------------------------------------------------
 PS C:\Users\Kevin Bell\IdeaProjects\PAR-tool>
-\end{verbatim}
+\end{Verbatim}
+}
 
 \end{document}
